@@ -36,6 +36,7 @@ rankhospital <- function(state=character(),outcome=character(),num="best") {
   ## ordering by lowest outcome value (and alphabetical order as tiebreaker), giving output
   rankdata<-data.frame(data_bystate[state])
   rankdata[,3:5]<-suppressWarnings(lapply(rankdata[,3:5],as.numeric)) ## converting character values to numeric to prevent errors
+  rankdata<-rankdata[complete.cases(rankdata[,outcome]),]
   if (worst==TRUE) {
     rankdata<-arrange(rankdata,-rankdata[,outcome],rankdata[,1])
   }

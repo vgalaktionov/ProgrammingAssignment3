@@ -1,3 +1,4 @@
+library(plyr)
 best <- function(state=character(),outcome=character()) {
   
   ## reading and cleaning outcome data, splitting by state
@@ -26,6 +27,7 @@ best <- function(state=character(),outcome=character()) {
   ## ordering by lowest outcome value (and alphabetical order as tiebreaker), giving output
   rankdata<-data.frame(data_bystate[state])
   rankdata[,3:5]<-suppressWarnings(lapply(rankdata[,3:5],as.numeric)) ## converting character values to numeric to prevent errors
-  ranking<-order(rankdata[,outcome],rankdata[,1])
-  rankdata[ranking[1],1]
+  rankdata<-rankdata[complete.cases(rankdata[,outcome]),]
+  rankdata<-arrange(rankdata,rankdata[,outcome],rankdata[,1])
+  rankdata[1,1]
 }
